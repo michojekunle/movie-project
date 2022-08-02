@@ -3,17 +3,20 @@ import './App.css';
 import MovieCard from './MovieCard';
 import SearchIcon from './search.svg';
 import { useState, useEffect } from 'react';
+import Spinner from './Spinner';
 
 const API_URL = 'https://www.omdbapi.com?apikey=1bd49d0b'
 
 const App = () => {
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const searchMovies = async (title) => {
+        setLoading(true);
         const response = await fetch(`${API_URL}&s=${title}`);
         const data = await response.json();
-
+        setLoading(false);
         setMovies(data.Search);
     }
     useEffect(() => {
@@ -35,6 +38,9 @@ const App = () => {
                 onClick={() => {searchMovies(searchTerm)}}
             />
         </div>
+        {
+            loading && <Spinner />
+        }
 
         {
             movies?.length>0 ? (
