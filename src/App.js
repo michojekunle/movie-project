@@ -16,9 +16,10 @@ const App = () => {
         setLoading(true);
         const response = await fetch(`${API_URL}&s=${title}`);
         const data = await response.json();
-        setLoading(false);
         setMovies(data.Search);
+        setLoading(false);
     }
+    
     useEffect(() => {
         searchMovies('Superman')
     }, []);
@@ -39,22 +40,22 @@ const App = () => {
             />
         </div>
         {
-            loading && <Spinner />
-        }
-
-        {
-            movies?.length>0 ? (
-                <div className='container'>
-                    {
-                        movies.map((movie)=> <MovieCard movie={movie}/>)
-                    }
-                </div>
-            ) : (
-                <div className='empty'>
-                    <h2>No movies Found</h2>
-                </div>
+            loading ? <Spinner /> :
+            (
+                movies?.length>0 ? (
+                    <div className='container'>
+                        {
+                            movies.map((movie)=> <MovieCard movie={movie}/>)
+                        }
+                    </div>
+                ) : (
+                    <div className='empty'>
+                        <h2>No movies Found</h2>
+                    </div>
+                )
             )
         }
+
     </div>
   )
 }
